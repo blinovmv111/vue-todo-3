@@ -4,39 +4,47 @@
       <div class="todo__sidebar">
         <ul class="list">
           <ListItem
-            v-for="item in items"
+            v-for="(item, index) in items"
             :badgeColor="item.badgeColor"
             :title="item.title"
             :key="item.id"
+            @addToTaskList="addToTaskList(index)"
           />
         </ul>
       </div>
-      <div class="todo__tasks"></div>
+      <div class="todo__tasks">
+        <ul class="list">
+          <ListItem v-for="itemTask in itemsTask" :key="itemTask.id" :title="itemTask.title" />
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import ListItem from './components/ListItem';
+import items from './mocks/data';
 
 export default {
   name: 'App',
   components: { ListItem },
   data() {
     return {
-      items: [
-        {
-          id: 1,
-          badgeColor: 'grey',
-          title: 'Изучение НТМL',
-        },
-        { id: 2, badgeColor: 'lime', title: 'Изучение СSS' },
-        { id: 3, badgeColor: 'purple', title: 'Изучение препроцессоров' },
-        { id: 4, badgeColor: 'black', title: 'Изучение JavaScript' },
-        { id: 5, badgeColor: 'red', title: 'Изучение фреймворка Vue' },
-        { id: 6, badgeColor: 'green', title: 'Разработка личного Pet-проекта' },
-      ],
+      itemsTask: [],
     };
+  },
+  computed: {
+    items() {
+      return items;
+    },
+  },
+  methods: {
+    addToTaskList(index) {
+      this.itemsTask.push(this.items[index]);
+    },
+  },
+  created() {
+    this.$store.dispatch('ActionGetData', 1000);
   },
 };
 </script>
@@ -79,56 +87,9 @@ export default {
 .list {
   display: grid;
   grid-template-rows: repeat(6, minmax(60px, auto));
+  grid-auto-flow: row;
   align-items: center;
   text-align: start;
   text-overflow: ellipsis;
-}
-.list-item {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  &:hover {
-    .text {
-      opacity: 0.7;
-    }
-  }
-}
-.badge {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 30px;
-
-  &--grey {
-    background-color: #c9d1d3;
-  }
-
-  &--lime {
-    background-color: #b6e6bd;
-  }
-
-  &--purple {
-    background-color: #c355f5;
-  }
-
-  &--black {
-    background-color: #08001a;
-  }
-
-  &--red {
-    background-color: #ff6464;
-  }
-
-  &--green {
-    background-color: #42b883;
-  }
-}
-.text {
-  padding-left: 10px;
-  flex: 1;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 160px;
-  white-space: nowrap;
 }
 </style>
