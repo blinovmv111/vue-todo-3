@@ -96,7 +96,7 @@ export default {
 .list {
   display: grid;
   grid-template-rows: repeat(6, minmax(60px, auto));
-  grid-auto-flow: row;
+  grid-auto-rows: 60px;
   align-items: center;
   text-align: start;
   text-overflow: ellipsis;

@@ -2,7 +2,7 @@
   <div>
     <h2>{{ item.title }}</h2>
     <li class="list-item">
-      {{ item.description }}
+      {{ item.body }}
     </li>
   </div>
 </template>
