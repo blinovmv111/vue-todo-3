@@ -13,11 +13,7 @@
       </div>
       <div class="todo__tasks">
         <ul class="list">
-          <ListItem
-            v-for="itemTask in itemsTask"
-            :key="itemTask.id"
-            :description="itemTask.description"
-          />
+          <TaskItem :item="selectedItem" />
         </ul>
       </div>
     </div>
@@ -26,14 +22,16 @@
 
 <script>
 import ListItem from './components/ListItem';
+import TaskItem from './components/TaskItem';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'App',
-  components: { ListItem },
+  components: { ListItem, TaskItem },
   data() {
     return {
-      itemsTask: [],
+      // itemsTask: [],
+      selected: -1,
     };
   },
   computed: {
@@ -41,11 +39,16 @@ export default {
     // items() {
     //   return this.$store.getters.getData;
     // },
+    selectedItem() {
+      if (this.selected === -1) return {};
+      return this.items[this.selected];
+    },
   },
   methods: {
     ...mapActions(['ActionGetData']),
     addToTaskList(index) {
-      this.itemsTask.push(this.items[index]);
+      // this.itemsTask.push(this.items[index]);
+      this.selected = index;
     },
   },
   created() {

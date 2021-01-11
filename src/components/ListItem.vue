@@ -1,6 +1,6 @@
 <template>
   <li class="list-item" @click="addToTaskList">
-    <i class="badge" :class="`badge--${badgeColor}`"></i>
+    <!-- <i class="badge" :class="`badge--${badgeColor}`"></i> -->
     <span class="text">{{ title }}</span>
   </li>
 </template>
@@ -9,9 +9,6 @@
 export default {
   name: 'ListItem',
   props: {
-    badgeColor: {
-      type: String,
-    },
     title: {
       type: String,
     },

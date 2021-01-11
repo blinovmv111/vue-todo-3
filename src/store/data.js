@@ -1,3 +1,4 @@
+// import axios from 'axios';
 import data from '../mocks/data';
 
 const getDataFromSource = (time) => {
@@ -7,6 +8,12 @@ const getDataFromSource = (time) => {
     }, time);
   });
 };
+
+// const getDataFromSource = () => {
+//   axios.get('https://jsonplaceholder.typicode.com/users/1/posts')
+//   .then()
+//   ;
+// };
 
 export default {
   namespased: true,
