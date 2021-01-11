@@ -5,7 +5,6 @@
         <ul class="list">
           <ListItem
             v-for="(item, index) in items"
-            :badgeColor="item.badgeColor"
             :title="item.title"
             :key="item.id"
             @addToTaskList="addToTaskList(index)"
@@ -14,7 +13,11 @@
       </div>
       <div class="todo__tasks">
         <ul class="list">
-          <ListItem v-for="itemTask in itemsTask" :key="itemTask.id" :title="itemTask.title" />
+          <ListItem
+            v-for="itemTask in itemsTask"
+            :key="itemTask.id"
+            :description="itemTask.description"
+          />
         </ul>
       </div>
     </div>
@@ -23,7 +26,7 @@
 
 <script>
 import ListItem from './components/ListItem';
-import items from './mocks/data';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'App',
@@ -34,17 +37,20 @@ export default {
     };
   },
   computed: {
-    items() {
-      return items;
-    },
+    ...mapGetters({ items: 'getData' }),
+    // items() {
+    //   return this.$store.getters.getData;
+    // },
   },
   methods: {
+    ...mapActions(['ActionGetData']),
     addToTaskList(index) {
       this.itemsTask.push(this.items[index]);
     },
   },
   created() {
-    this.$store.dispatch('ActionGetData', 1000);
+    this.ActionGetData(1000);
+    // this.$store.dispatch('ActionGetData', 1000);
   },
 };
 </script>
