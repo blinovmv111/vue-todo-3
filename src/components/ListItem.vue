@@ -1,7 +1,10 @@
 <template>
   <li class="list-item" @click="addToTaskList">
     <!-- <i class="badge" :class="`badge--${badgeColor}`"></i> -->
-    <span class="text">{{ title }}</span>
+    <span class="text">
+      <strong>{{ index + 1 }}.</strong>
+      {{ title }}</span
+    >
   </li>
 </template>
 
@@ -11,6 +14,14 @@ export default {
   props: {
     title: {
       type: String,
+    },
+    index: {
+      type: Number,
+    },
+  },
+  filters: {
+    uppercase(value) {
+      return value.toUppercase();
     },
   },
   methods: {

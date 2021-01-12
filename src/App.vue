@@ -2,11 +2,16 @@
   <div id="app">
     <div class="todo">
       <div class="todo__sidebar">
-        <ul class="list">
+        <p v-if="error">
+          Не удалось получить данные с сервера. Ошибка {{ error.response.status }} Попробуйте позже.
+        </p>
+        <Loader v-if="loading" />
+        <ul v-else class="list">
           <ListItem
             v-for="(item, index) in items"
             :title="item.title"
             :key="item.id"
+            :index="index"
             @addToTaskList="addToTaskList(index)"
           />
         </ul>
@@ -23,15 +28,18 @@
 <script>
 import ListItem from './components/ListItem';
 import TaskItem from './components/TaskItem';
+import Loader from './components/Loader';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'App',
-  components: { ListItem, TaskItem },
+  components: { ListItem, TaskItem, Loader },
   data() {
     return {
       // itemsTask: [],
+      loading: true,
       selected: -1,
+      error: null,
     };
   },
   computed: {
@@ -50,9 +58,17 @@ export default {
       // this.itemsTask.push(this.items[index]);
       this.selected = index;
     },
+
+    async loadData() {
+      const error = await this.ActionGetData();
+      this.loading = false;
+      if (error) {
+        this.error = error;
+      }
+    },
   },
-  created() {
-    this.ActionGetData(1000);
+  beforeMount() {
+    this.loadData();
     // this.$store.dispatch('ActionGetData', 1000);
   },
 };
